@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { CARDS_IMAGE_PATH, CARD_BACK_IMAGE_PATH, MAX_CARD_NUMBER } from '../config'
 
-/** Base URL for assets (Vite serves from / so path is absolute from origin) */
+/** Base URL for assets (respects Vite base, e.g. /flipcards/ on GitHub Pages) */
 function assetUrl(path: string): string {
-  if (path.startsWith('/')) return path
-  return '/' + path.replace(/^\//, '')
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
+  const p = path.startsWith('/') ? path.slice(1) : path
+  return `${base}/${p}`.replace(/\/+/g, '/')
 }
 
 /**
